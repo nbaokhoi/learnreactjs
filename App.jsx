@@ -3,6 +3,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
+            text: 'Initial data text...',
             data: [
                 {
                     "id": 1,
@@ -21,12 +22,18 @@ class App extends React.Component {
                 }
             ]
         }
+        this.updateState = this.updateState.bind(this);
+    }
+    updateState(e) {
+        this.setState({ text: e.target.value });
     }
     render() {
         return (
             <div>
                 <Header />
-                <Content data = {this.state.data} />
+                <Content data={this.state.data} />
+                <SimpleForm />
+                <ComplexForm dataProps={this.state.text} updateStateProps={this.updateState} />
             </div>
         );
     }
@@ -63,6 +70,38 @@ class TableRow extends React.Component {
                 <td>{this.props.data.name}</td>
                 <td>{this.props.data.age}</td>
             </tr>
+        );
+    }
+}
+class SimpleForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: 'Initial data...'
+        }
+        this.updateState = this.updateState.bind(this);
+    }
+    updateState(e) {
+        this.setState({ data: e.target.value });
+    }
+    render() {
+        return (
+            <div>
+                <h3>Simple Form Example</h3>
+                <input type="text" value={this.state.data} onChange={this.updateState} />
+                <h4>{this.state.data}</h4>
+            </div>
+        );
+    }
+}
+class ComplexForm extends React.Component {
+    render() {
+        return (
+            <div>
+                <h3>Complex Form Example</h3>
+                <input type="text" value={this.props.dataProps} onChange={this.props.updateStateProps} />
+                <h4>{this.props.dataProps}</h4>
+            </div>
         );
     }
 }
